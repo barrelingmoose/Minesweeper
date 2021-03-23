@@ -1,0 +1,20 @@
+MINESWEEPER
+- Emulate Minesweeper
+- Single player game
+- How will it work?
+  - Use arrow keys to navigate
+  - Use one button to highlight
+  - Use one button to press
+
+DETAILS
+- Randomly place bombs
+- Determine desired size
+  - Begin with squares for ease of use
+- Determine difficulty based on size of squares
+  - How many bombs?
+  - What makes it difficult?
+- Choose an object
+- Highlight/flag an object
+- Display how many bombs a square is touching
+- Empty squares
+- 
