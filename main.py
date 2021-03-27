@@ -13,8 +13,8 @@ import math
 ################################################################################
 
 # This function starts the game
-def play():
-    pass
+# def play():
+#     pass
 
 # This function determines if a win condition has been met
 def win_condition():
@@ -44,6 +44,9 @@ def playing_field():
 # Function:    create_playing_field(size, bombs)
 # Description: Creates a playing field of desired size and the desired amount
 #              of bombs
+# Returns:     Returns two lists, position and location. position holds the
+#              spaces of safe spaces and bombs. Location holds the index value
+#              of the position spaces.
 # Bugs: Can't create the maximum amount of bombs (Field size - 1)
 ################################################################################
 
@@ -57,12 +60,12 @@ def create_playing_field(size, bombs):
             box_value = r.randint(1, int(size)**2)
             rows_columns += 1
             if not nt.isprime(box_value) or bomb_count == int(bombs):
-                print(rows_columns, end = ' ')
+                print("#", end = ' ')
                 position.append(0)
                 location.append(rows_columns)
             else:
                 # Just change what is printed and it should "mask" the value
-                print(rows_columns, end = ' ')
+                print('#', end = ' ')
                 position.append('*')
                 location.append(rows_columns)
                 bomb_count += 1
@@ -76,6 +79,8 @@ def create_playing_field(size, bombs):
 #              if the space is touching any bombs in the adjacent squares and if
 #              it is, it adds one to the counter placed in the index to indicate
 #              how many bombs it touches.
+# Returns:     Returns the checked list of safe spaces and bombs with each
+#              safe space holding a counter of number of bombs it touches
 # Bugs:        If the bomb is in the last index, there is an IndexError
 ################################################################################
 
@@ -202,18 +207,33 @@ def check_for_bombs(field, row):
         i+=1
     return field
 
-def check_location(lst):
+def play(lst):
     contents = lst[0]
     location = lst[1]
-    for i in range(0, len(lst[0])):
-        if lst[0][i] == '*':
-            print('BOOM!')
-
+    lose = False
+    win = False
+    while not lose and not win:
+        user_input = input("Enter a position: ")
+        for i in range(0, len(contents)):
+            if user_input == '*':
+                choose_bomb_position = int(input('Choose where the bomb is: '))
+                if contents[choose_bomb_position-1] == '*':
+                    print('You Win!')
+                    win = True
+                    break
+            elif contents[i] == '*' and int(user_input) == i + 1:
+                print('BOOM!')
+                lose = True
+                break
+            elif contents[i] != '*' and int(user_input) == i + 1:
+                print(f"{user_input} touches {contents[i]} bombs")
+                break
 
 square_playing_field = playing_field()
 size_of_field = square_playing_field[0]
 bombs_in_field = square_playing_field[1]
 position = create_playing_field(size_of_field, bombs_in_field)
 bomb_location = check_for_bombs(position[0], int(size_of_field))
-print(bomb_location)
-kaboom = check_location(position)
+#print(bomb_location)
+#print(position[1])
+start = play(position)
